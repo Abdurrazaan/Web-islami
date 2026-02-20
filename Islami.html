@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurul Iman - Web Islami</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* CSS MANUAL (FRONT-END STYLING) */
+        :root {
+            --primary-color: #065f46; /* Hijau Zamrud */
+            --secondary-color: #fbbf24; /* Kuning Emas */
+            --bg-light: #f9fafb;
+            --text-dark: #1f2937;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 { margin: 0; font-size: 1.5rem; }
+        .nav-links { list-style: none; display: flex; gap: 20px; padding: 0; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--secondary-color); }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(6, 95, 70, 0.8), rgba(6, 95, 70, 0.8)), 
+                        url('https://images.unsplash.com/photo-1542714509-2319483c6660?q=80&w=1000') no-repeat center center/cover;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        /* Jadwal Salat */
+        .sholat-container {
+            max-width: 900px;
+            margin: -40px auto 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .sholat-item { padding: 10px; flex: 1; min-width: 120px; border-right: 1px solid #eee; }
+        .sholat-item:last-child { border-right: none; }
+        .sholat-item p { margin: 5px 0; color: #666; font-size: 0.8rem; text-transform: uppercase; }
+        .sholat-item h4 { margin: 0; color: var(--primary-color); font-size: 1.3rem; }
+
+        /* Section Umum */
+        .section-title { text-align: center; margin: 40px 0 20px; }
+
+        /* Pencarian Quran */
+        .quran-box {
+            max-width: 500px;
+            margin: 20px auto;
+            display: flex;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        .quran-box input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .quran-box button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #displaySurah {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px dashed var(--primary-color);
+            display: none;
+        }
+
+        /* Kalkulator Zakat */
+        .zakat-card {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .zakat-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .btn-zakat {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #hasilZakat {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ecfdf5;
+            color: #065f46;
+            border-radius: 8px;
+            display: none;
+        }
+
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <h1><i class="fas fa-mosque"></i> Nurul Iman</h1>
+        <ul class="nav-links">
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#quran">Al-Qur'an</a></li>
+            <li><a href="#zakat">Zakat</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h2 style="font-style: italic;">"Maka nikmat Tuhanmu yang manakah yang kamu dustakan?"</h2>
+        <p>- QS. Ar-Rahman: 13 -</p>
+    </header>
+
+    <div class="sholat-container">
+        <div class="sholat-item"><p>Subuh</p><h4 id="subuh">--:--</h4></div>
+        <div class="sholat-item"><p>Dzuhur</p><h4 id="dzuhur">--:--</h4></div>
+        <div class="sholat-item"><p>Ashar</p><h4 id="ashar">--:--</h4></div>
+        <div class="sholat-item"><p>Maghrib</p><h4 id="maghrib">--:--</h4></div>
+        <div class="sholat-item"><p>Isya</p><h4 id="isya">--:--</h4></div>
+    </div>
+
+    <div style="text-align:center; font-size: 0.9rem; color: #666;">
+        <i class="fas fa-map-marker-alt"></i> <span id="lokasi-anda">Mendeteksi Lokasi...</span>
+    </div>
+
+    <h2 class="section-title" id="quran">Cari Info Surah</h2>
+    <div class="quran-box">
+        <input type="number" id="nomorSurah" placeholder="Nomor Surah (1-114)">
+        <button onclick="cariSurah()">Cari</button>
+    </div>
+    <div id="displaySurah"></div>
+
+    <h2 class="section-title" id="zakat">Kalkulator Zakat Mal</h2>
+    <div class="zakat-card">
+        <label>Total Harta (Tabungan/Emas)</label>
+        <input type="number" id="totalHarta" placeholder="Contoh: 100000000">
+        <button class="btn-zakat" onclick="hitungZakat()">Hitung Wajib Zakat</button>
+        <div id="hasilZakat"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Nurul Iman - Front-End Islami</p>
+    </footer>
+
+    <script>
+        // 1. Ambil Jadwal Sholat Berdasarkan Lokasi
+        window.onload = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    getJadwal(pos.coords.latitude, pos.coords.longitude);
+                }, () => {
+                    getJadwal(-6.2088, 106.8456); // Default Jakarta
+                    document.getElementById('lokasi-anda').innerText = "Jakarta (Default)";
+                });
+            }
+        };
+
+        async function getJadwal(lat, lon) {
+            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=11`);
+            const data = await res.json();
+            const t = data.data.timings;
+            document.getElementById('subuh').innerText = t.Fajr;
+            document.getElementById('dzuhur').innerText = t.Dhuhr;
+            document.getElementById('ashar').innerText = t.Asr;
+            document.getElementById('maghrib').innerText = t.Maghrib;
+            document.getElementById('isya').innerText = t.Isha;
+            document.getElementById('lokasi-anda').innerText = data.data.meta.timezone;
+        }
+
+        // 2. Cari Surah
+        async function cariSurah() {
+            const no = document.getElementById('nomorSurah').value;
+            const box = document.getElementById('displaySurah');
+            if(no < 1 || no > 114) return alert("1-114 saja");
+            
+            const res = await fetch(`https://equran.id/api/v2/surat/${no}`);
+            const json = await res.json();
+            const s = json.data;
+            
+            box.style.display = "block";
+            box.innerHTML = `<h3>${s.namaLatin} (${s.nama})</h3>
+                             <p>Arti: ${s.arti} | Ayat: ${s.jumlahAyat}</p>`;
+        }
+
+        // 3. Hitung Zakat
+        function hitungZakat() {
+            const harta = document.getElementById('totalHarta').value;
+            const hasil = document.getElementById('hasilZakat');
+            if(harta > 0) {
+                const zakat = harta * 0.025;
+                hasil.style.display = "block";
+                hasil.innerHTML = "Wajib Zakat: <b>Rp " + zakat.toLocaleString('id-ID') + "</b>";
+            }
+        }
+    </script>
+</body>
+</html>
